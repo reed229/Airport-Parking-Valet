@@ -20,7 +20,3 @@ public class Admin extends User{
                "Role    : " + role;
     }
 }
- {
-
-    
-}
