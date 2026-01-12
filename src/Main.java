@@ -9,6 +9,8 @@ public class Main {
         boolean choseCustomer = true;
         boolean choseAdmin = false;
         boolean exit = false;
+        Scanner scanner = new Scanner(System.in);
+        
 	    do {
 		    if (choseCustomer) {
                 Customer customer = createCustomer();
