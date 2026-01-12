@@ -1,3 +1,5 @@
+//Copyright (c) 2026 Fareed
+
 public class ParkingLot {
     private String levelOfSecurity;
     private int floorLevel;
