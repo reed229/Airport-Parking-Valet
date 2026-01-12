@@ -19,12 +19,8 @@ public class Admin extends User{
         return super.toString() + 
                "Role    : " + password;
     }
-<<<<<<< HEAD
 }
  
 
     
 
-=======
-}
->>>>>>> be30fd64cb4cb848ccc77d284f5b36495e3ddf33
