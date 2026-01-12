@@ -1,26 +1,26 @@
 public class Admin extends User{
-    private String role;
+    private String password;
 
-    public Admin(String name, String id, String contact, String role) {
+    public Admin(String name, String id, String contact, String password) {
         super(name, id, contact);
-        this.role = role;
+        this.password = password;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getRole() {
-        return role;
+    public String getPassword() {
+        return password;
     }
 
     @Override
     public String toString() {
         return super.toString() + 
-               "Role    : " + role;
+               "Role    : " + password;
     }
 }
- {
+ 
 
     
-}
+
