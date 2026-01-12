@@ -17,7 +17,6 @@ public class User{
 	public void setId (String id){
 		this.id = id;
 	}
-	
 	public void setContact (String contact){
 		this.contact = contact;
 	}
@@ -25,18 +24,18 @@ public class User{
 	public String getName(){
 		return name;
 	}
-	
 	public String getId(){
 		return id;
 	}
-	
 	public String getContact(){
 		return contact;
 	}
-	
+
+	@Override
 	public String toString(){
 		return 	"Name    : "+name+
 				"Id      : "+id+
 				"Contact : "+contact;
 	}
+
 }
