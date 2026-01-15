@@ -7,6 +7,13 @@ public class ParkingLot {
     private String floorSection;
     private String extraService;
 
+    public ParkingLot() {
+        this.levelOfSecurity = "";
+        this.floorLevel = 0;
+        this.floorSection = "";
+        this.extraService = "";
+    }
+
     public ParkingLot(String LevelOfSecurity, int FloorLevel, String FloorSection, String ExtraService) {
         this.levelOfSecurity = LevelOfSecurity;
         this.floorLevel = FloorLevel;

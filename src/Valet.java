@@ -2,6 +2,10 @@ package src;
 public class Valet extends User{
     private String rating;
 
+    public Valet() {
+        super();
+        this.rating = "";
+    }
     public Valet(String name, String id, String contact, String rating) {
         super(name, id, contact);
         this.rating = rating;

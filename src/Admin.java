@@ -2,6 +2,11 @@ package src;
 public class Admin extends User {
     private String password;
 
+    public Admin() {
+        super();
+        this.password = "";
+    }
+
     public Admin(String name, String id, String contact, String password) {
         super(name, id, contact);
         this.password = password;

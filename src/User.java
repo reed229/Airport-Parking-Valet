@@ -3,6 +3,12 @@ public class User{
 	protected String name;
 	protected String id;
 	protected String contact;
+
+	public User(){
+		this.name = "";
+		this.id = "";
+		this.contact = "";
+	}
 	
 	
 	public User(String name, String id, String contact){

@@ -5,6 +5,14 @@ public class Customer extends User{
     private Vehicle vehicle;
     private Valet val;
 
+    public Customer() {
+        super();
+        this.duration = 0;
+        this.membership = "";
+        this.vehicle = null;
+        this.val = new Valet();
+    }
+
     public Customer(String name, String id, String contact, int duration, String membership, Vehicle vehicle, Valet val) {
         super(name, id, contact);
         this.duration = duration;

@@ -7,6 +7,16 @@ public abstract class Vehicle {
 	protected ParkingLot parkingLot;
 	protected String platNum;
 
+	// Constructors
+	public Vehicle() {
+		this.vehicleType = "";
+		this.brand  = "";
+		this.vehicleBrand = "";
+		this.roadTax = "";
+		this.parkingLot = new ParkingLot();
+		this.platNum = "";
+	}
+
 	public Vehicle( String vehicleType, String brand, String vehicleBrand, String roadTax, ParkingLot parkingLot, String platNum) {
 		this.vehicleType = vehicleType;
 		this.brand  = brand;
