@@ -65,4 +65,16 @@ public abstract class Vehicle {
 	protected String getPlatNum() {
 		return platNum;
 	}
+
+	public abstract double vehicleCost();
+	
+		public String toString() {
+		return "Vehicle Type: " + vehicleType + "\n" +
+			   "Brand: " + brand + "\n" +
+			   "Vehicle Brand: " + vehicleBrand + "\n" +
+			   "Road Tax: " + roadTax + "\n" +
+			   "Parking Lot: " + parkingLot + "\n" +
+			   "Plate Number: " + platNum + "\n";
+	}
 }
+
