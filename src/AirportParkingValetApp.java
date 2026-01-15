@@ -14,7 +14,7 @@ public class AirportParkingValetApp {
     static boolean exit = false;
 
     public static void main(String[] args){
-        Valet[] val = new Valet[10];
+        Valet[] val = new Valet[100];
         loadValet(val);
 
 
@@ -27,12 +27,19 @@ public class AirportParkingValetApp {
                     //customer menu
                     Customer cus = new Customer();
                     customerMenu(cus,val);
+                    chooseValet(cus, val);
+                    calcPayment(cus);
+                    paymentRceipt(cus, val);
                     break;
                 case 2:
                     // Admin menu
                     Admin admin = new Admin();
                     loadAdmin(admin);
-                    adminMenu(admin, val);
+                    //admin validation
+                    //admin login method
+                    if(adminLogin(admin)) {
+                        adminMenu(admin, val);
+                    }
                     break;
                 case 3:
                     exit = true;
@@ -42,6 +49,8 @@ public class AirportParkingValetApp {
                     System.out.println("Invalid choice. Please try again."); 
             }
         }
+
+        outputfile(val);
     }
 
     public static int menu() {
@@ -56,12 +65,10 @@ public class AirportParkingValetApp {
         int choice = scanner.nextInt();
         scanner.nextLine(); // Consume newline
 
-        if (!scanner.hasNextInt()) {
+        if (!(choice >= 1 && choice <= 3)) {
+            choice = scanner.nextInt();
             scanner.nextLine();
         }
-
-        choice = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
 
         return choice;
     }
@@ -70,15 +77,15 @@ public class AirportParkingValetApp {
         try{
             File file = new File("src/valet.txt");
             Scanner fileScanner = new Scanner(file);
-            
             int index = 0;
             while(fileScanner.hasNextLine()){
                 String line = fileScanner.nextLine();
                 String[] parts = line.split(";");
-
-                if(parts.length >= 4) {
-                    val[index++] = new Valet(parts[0], parts[1], parts[2], parts[3]);
-                }
+                String name = parts[0];
+                String id = parts[1];
+                String contact = parts[2];
+                String rating = parts[3];
+                val[index++] = new Valet(name, id, contact, rating);
             }
             fileScanner.close();
         } catch (IOException e) {
@@ -117,8 +124,6 @@ public class AirportParkingValetApp {
             System.out.print("Enter vehicle type: ");
             vehicleType = scanner.nextLine();   
         }
-        System.out.print("Enter vehicle type: ");
-        vehicleType = scanner.nextLine();
 
         System.out.print("Enter vehicle brand: ");
         String brand = scanner.nextLine();
@@ -156,7 +161,6 @@ public class AirportParkingValetApp {
             vehicle = new Motorcycle(vehicleType, brand, vehicleBrand, roadTax, parkingLot, platNum);
         else if (vehicleType.equalsIgnoreCase("van"))
             vehicle = new Van(vehicleType, brand, vehicleBrand, roadTax, parkingLot, platNum);
-        else
 
         cus.setVehicle(vehicle);
 
@@ -198,10 +202,9 @@ public class AirportParkingValetApp {
 
         boolean back = false;
         while(!back) {
-            System.out.println("\n1. View Valets");
-            System.out.println("2. Add Valet");
-            System.out.println("3. Remove Valet");
-            System.out.println("4. Back to Main Menu");
+            System.out.println("1. Add Valet");
+            System.out.println("2. Remove Valet");
+            System.out.println("3. Back to Main Menu");
             System.out.print("Please choose an option: ");
 
             int choice = scanner.nextInt();
@@ -209,14 +212,6 @@ public class AirportParkingValetApp {
 
             switch(choice) {
                 case 1:
-                    System.out.println("\n--- List of Valets ---");
-                    for(Valet v : val) {
-                        if(v != null) {
-                            System.out.println(v.toString());
-                        }
-                    }
-                    break;
-                case 2:
                     System.out.print("Enter valet name: ");
                     String name = scanner.nextLine();
 
@@ -229,34 +224,123 @@ public class AirportParkingValetApp {
                     System.out.print("Enter valet rating: ");
                     String rating = scanner.nextLine();
 
+
+
                     // Find first empty slot
+                    int addIndex = -1;
                     for(int i = 0; i < val.length; i++) {
                         if(val[i] == null) {
-                            val[i] = new Valet(name, id, contact, rating);
-                            System.out.println("Valet added successfully.");
+                            addIndex = i;
                             break;
                         }
                     }
+                    val[addIndex] = new Valet(name, id, contact, rating);
+
                     break;
-                case 3:
+                case 2:
                     System.out.print("Enter valet ID to remove: ");
                     String removeId = scanner.nextLine();
 
+                    boolean found = false;
                     for(int i = 0; i < val.length; i++) {
                         if(val[i] != null && val[i].getId().equals(removeId)) {
                             val[i] = null;
+                            found = true;
                             System.out.println("Valet removed successfully.");
                             break;
                         }
                     }
+                    if(!found) {
+                        System.out.println("Valet with ID " + removeId + " not found.");
+                    }
                     break;
-                case 4:
-                    back = true;
-                    break;
+                case 3:
+                    return;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
         }
     }
 
+
+
+    public static void chooseValet(Customer cus, Valet[] val) {
+        System.out.println("\n--- Choose a Valet ---");
+        System.out.println("list of valets available:");
+        for(int i = 0; i < val.length; i++) {
+            if(val[i] != null) {
+                System.out.println((i+1) + ". " + val[i].getName() + " (Rating: " + val[i].getRating() + ")");
+            }
+        }  
+    }
+
+
+    public static boolean adminLogin(Admin admin) {
+        System.out.print("Enter Admin ID: ");
+        String id = scanner.nextLine();
+
+        System.out.print("Enter Admin Password: ");
+        String password = scanner.nextLine();
+
+        admin.setId(id);
+        admin.setPassword(password);
+
+        if (admin.verifyCredentials(admin.getId(), admin.getPassword())) {
+              return true;
+        } else {
+                return false;
+         }
+    }
+
+
+
+    public static double calcPayment(Customer cus){
+        double totalCost = cus.totalVehicleCost();
+        System.out.println("Total Cost: RM" + totalCost);
+        double totalPrice = totalCost;
+        if(cus.getMembership().equalsIgnoreCase("yes")){
+            double discountPrice = totalCost * 0.1;
+            double discountedTotal = totalCost - discountPrice;
+            System.out.println("Membership Discount Applied: RM" + discountPrice);
+            System.out.println("Discounted Total Cost: RM" + discountedTotal);
+        }else{
+            System.out.println("No Membership Discount Applied.");
+        }
+        return totalPrice;
+    }
+
+
+
+    public static void outputfile(Valet[] val) {
+        try {
+            FileWriter writer = new FileWriter("src/valet.txt");
+
+            for (Valet v : val) {
+                if (v != null) {
+                    writer.write(v.getName() + ";" + v.getId() + ";" + v.getContact() + ";" + v.getRating() + "\n");
+                }
+            }
+
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred while writing to the file: " + e.getMessage());
+        }
+    }
+
+
+
+    public static void paymentRceipt(Customer cus, Valet[] val) {
+        System.out.println("\n--- Payment Receipt ---");
+        System.out.println("Customer Name: " + cus.getName());
+        System.out.println("Customer ID: " + cus.getId());
+        System.out.println("Contact: " + cus.getContact());
+        System.out.println("Vehicle Type: " + cus.getVehicle().getVehicleType());
+        System.out.println("Vehicle Brand: " + cus.getVehicle().getBrand());
+        System.out.println("Parking Duration: " + cus.getDuration() + " days");
+        System.out.println("Membership: " + cus.getMembership());
+        double totalCost = calcPayment(cus);
+        System.out.println("Total Payment: RM" + totalCost);
+        System.out.println("Assigned Valet: " + cus.getVal().getName());
+        System.out.println("------------------------");
+    }
 }
