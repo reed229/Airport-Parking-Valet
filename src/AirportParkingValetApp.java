@@ -3,9 +3,17 @@ package src;
 // Zufar
 
 import java.util.Scanner;
+import java.io.FileNotFoundException;
+import java.io.ArrayList;
+import java.io.File;
 
 public class AirportParkingValetApp {
+    static ArrayList<Valet> val = new ArrayList<Valet>();
     public static void main(String[] args) {
+        loadValetFromFile("src/valet.txt");
+
+        
+        
         boolean choseCustomer = true;
         boolean choseAdmin = false;
         boolean exit = false;
