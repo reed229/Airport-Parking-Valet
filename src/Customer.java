@@ -50,12 +50,15 @@ public class Customer extends User{
         return val;
     }
 
+	public double totalVehicleCost() {
+		return vehicle.vehicleCost() * getDuration();
+	}
   
 
     @Override
     public String toString() {
         return super.toString() + 
-               "Duration       : " + duration + " hours\n" +
+               "\nDuration       : " + duration + " hours\n" +
                "Membership     : " + membership + "\n" +
                "Vehicle Info   : \n" + vehicle.toString() +
                "Assigned Valet : \n" + val.toString();
