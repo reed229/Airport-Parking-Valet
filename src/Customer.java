@@ -4,6 +4,7 @@ public class Customer extends User{
     private String membership;
     private Vehicle vehicle;
     private Valet val;
+    private Member mem;
 
     public Customer() {
         super();
@@ -11,14 +12,16 @@ public class Customer extends User{
         this.membership = "";
         this.vehicle = null;
         this.val = new Valet();
+        this.mem = new Member();
     }
 
-    public Customer(String name, String id, String contact, int duration, String membership, Vehicle vehicle, Valet val) {
+    public Customer(String name, String id, String contact, int duration, String membership, Vehicle vehicle, Valet val, Member mem) {
         super(name, id, contact);
         this.duration = duration;
         this.membership = membership;
         this.vehicle = vehicle;
         this.val = val;
+        this.mem = mem;
     }
 
       public void setDuration(int duration) {
@@ -36,6 +39,9 @@ public class Customer extends User{
     public void setVal(Valet val) {
         this.val = val;
     }
+    public void setMem(Member mem) {
+        this.mem = mem;
+    }
 
     public int getDuration() {
         return duration;
@@ -48,6 +54,9 @@ public class Customer extends User{
     }
     public Valet getVal() {
         return val;
+    }
+    public Member getMem() {
+        return mem;
     }
 
 	public double totalVehicleCost() {
@@ -62,5 +71,6 @@ public class Customer extends User{
                "Membership     : " + membership + "\n" +
                "Vehicle Info   : \n" + vehicle.toString() +
                "Assigned Valet : \n" + val.toString();
+               
     }
 }
