@@ -15,7 +15,8 @@ public class AirportParkingValetApp {
 
     public static void main(String[] args){
         Valet[] val = new Valet[100];
-        loadValet(val);
+        
+        
 
 
         while(!exit) {
@@ -118,6 +119,13 @@ public class AirportParkingValetApp {
         System.out.print("Enter membership yes/no : ");
         String membership = scanner.nextLine();
         cus.setMembership(membership);
+        
+        if(membership.equalsIgnoreCase("yes")){
+            System.out.print("Enter membership ID : ");
+            String membershipId = scanner.nextLine();
+            Member mem = new Member(membershipId);
+            cus.setMem(mem);
+        }
 
         // Vehicle details
         String vehicleType = "";
@@ -136,14 +144,17 @@ public class AirportParkingValetApp {
         String platNum = scanner.nextLine();
 
         // Parking lot details
-        System.out.print("Enter level of security (Low/Medium/High): ");
-        String levelOfSecurity = scanner.nextLine();
+        String levelOfSecurity = "";
+        while (!levelOfSecurity.equalsIgnoreCase("Low") && !levelOfSecurity.equalsIgnoreCase("Medium") && !levelOfSecurity.equalsIgnoreCase("High") ) {
+            System.out.print("Enter level of security (Low/Medium/High): ");
+            levelOfSecurity = scanner.nextLine();
+        }
 
-        System.out.print("Enter floor level: ");
+        System.out.print("Enter floor level(0 until 5) : ");
         int floorLevel = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine();
 
-        System.out.print("Enter floor section: ");
+        System.out.print("Enter floor section(section A 1-5/B 6-11/C 12-21 ): ");
         String floorSection = scanner.nextLine();
 
         System.out.print("Enter extra service (if any): ");
@@ -154,11 +165,11 @@ public class AirportParkingValetApp {
         Vehicle vehicle = null;
 
         if (vehicleType.equalsIgnoreCase("car"))
-            vehicle = new Car(vehicleType, brand, vehicleBrand, roadTax, parkingLot, platNum);
+            vehicle = new Car(vehicleType, brand, vehicleBrand, parkingLot, platNum);
         else if (vehicleType.equalsIgnoreCase("motorcycle"))
-            vehicle = new Motorcycle(vehicleType, brand, vehicleBrand, roadTax, parkingLot, platNum);
+            vehicle = new Motorcycle(vehicleType, brand, vehicleBrand, parkingLot, platNum);
         else if (vehicleType.equalsIgnoreCase("van"))
-            vehicle = new Van(vehicleType, brand, vehicleBrand, roadTax, parkingLot, platNum);
+            vehicle = new Van(vehicleType, brand, vehicleBrand, parkingLot, platNum);
 
         cus.setVehicle(vehicle);
 
@@ -340,5 +351,29 @@ public class AirportParkingValetApp {
         System.out.println("Total Payment: RM" + totalCost);
         System.out.println("Assigned Valet: " + cus.getVal().getName());
         System.out.println("------------------------");
+    }
+
+
+
+    public static void valetShift() {
+        //method to shift valet data in the text file after removing a valet
+        int index = 0;
+        Valet[] val = new Valet[10];
+        try {
+            File file = new File("src/valet.txt");
+            Scanner fileScanner = new Scanner(file);
+            while(fileScanner.hasNextLine()){
+                String line = fileScanner.nextLine();
+                String[] parts = line.split(";");
+                String name = parts[0];
+                String id = parts[1];
+                String contact = parts[2];
+                String rating = parts[3];
+                val[index++] = new Valet(name, id, contact, rating);
+            }
+            fileScanner.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
