@@ -3,6 +3,7 @@ public class Customer extends User {
     private int duration;
     private Vehicle vehicle;
     private Valet val;
+    private String membership;
 
     public Customer() {
         super();
@@ -11,11 +12,12 @@ public class Customer extends User {
         this.val = new Valet();
     }
 
-    public Customer(String name, String id, String contact, int duration, Vehicle vehicle, Valet val) {
+    public Customer(String name, String id, String contact, int duration, Vehicle vehicle, Valet val, String membership) {
         super(name, id, contact);
         this.duration = duration;
         this.vehicle = vehicle;
         this.val = val;
+        this.membership = membership;
     }
 
       public void setDuration(int duration) {
@@ -29,6 +31,9 @@ public class Customer extends User {
     public void setVal(Valet val) {
         this.val = val;
     }
+    public void setMembership(String membership) {
+        this.membership = membership;
+    }
 
     public int getDuration() {
         return duration;
@@ -40,10 +45,15 @@ public class Customer extends User {
     public Valet getVal() {
         return val;
     }
+    public String getMembership() {
+        return membership;
+    }
+    
 
 	public double totalVehicleCost() {
 		return vehicle.vehicleCost() * getDuration();
 	}
+    
   
 
     @Override
@@ -53,10 +63,5 @@ public class Customer extends User {
                "Vehicle Info   : \n" + vehicle.toString() +
                "Assigned Valet : \n" + val.toString();
                
-    }
-
-    public String getMembership() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getMembership'");
     }
 }
