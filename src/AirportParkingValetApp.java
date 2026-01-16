@@ -268,8 +268,6 @@ public class AirportParkingValetApp {
         }
     }
 
-
-
     public static void chooseValet(Customer cus, Valet[] val) {
         System.out.println("\n--- Choose a Valet ---");
         System.out.println("list of valets available:");
@@ -279,7 +277,6 @@ public class AirportParkingValetApp {
             }
         }  
     }
-
 
     public static boolean adminLogin(Admin admin) {
         System.out.print("Enter Admin ID: ");
@@ -299,7 +296,6 @@ public class AirportParkingValetApp {
     }
 
 
-
     public static double calcPayment(Customer cus){
         double totalCost = cus.totalVehicleCost();
         System.out.println("Total Cost: RM" + totalCost);
@@ -314,7 +310,6 @@ public class AirportParkingValetApp {
         }
         return totalPrice;
     }
-
 
 
     public static void outputfile(Valet[] val) {
@@ -333,8 +328,6 @@ public class AirportParkingValetApp {
         }
     }
 
-
-
     public static void paymentRceipt(Customer cus, Valet[] val) {
         System.out.println("\n--- Payment Receipt ---");
         System.out.println("Customer Name: " + cus.getName());
@@ -349,8 +342,6 @@ public class AirportParkingValetApp {
         System.out.println("Assigned Valet: " + cus.getVal().getName());
         System.out.println("------------------------");
     }
-
-
 
     public static void valetShift(Valet[] val) {
         //method to shift valet data in the text file after removing a valet
@@ -391,5 +382,4 @@ public class AirportParkingValetApp {
         valetShift(val);
     }
     
-
  }
