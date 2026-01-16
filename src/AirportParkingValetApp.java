@@ -96,6 +96,7 @@ public class AirportParkingValetApp {
     public static void customerMenu(Customer cus, Valet[] val) {
         System.out.println("\n--- Customer Menu ---");
 
+
         System.out.print("Enter your name: ");
         String name = scanner.nextLine();
 
@@ -130,9 +131,6 @@ public class AirportParkingValetApp {
 
         System.out.print("Enter vehicle model: ");
         String vehicleBrand = scanner.nextLine();
-
-        System.out.print("Enter road tax number: ");
-        String roadTax = scanner.nextLine();
 
         System.out.print("Enter license plate number: ");
         String platNum = scanner.nextLine();
