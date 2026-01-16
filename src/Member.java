@@ -10,10 +10,10 @@ public class Member extends Customer {
         this.mem = "";
     }
 
-    public Member(String name, String id, String contact, int duration, Vehicle vehicle, Valet val, String membershipId, String mem) {
-        super(name, id, contact, duration, vehicle, val);
-        this.membershipId = "";
-        this.mem = "";
+    public Member(String name, String id, String contact, int duration, Vehicle vehicle, Valet val, String membershipId, String mem, String membership) {
+        super(name, id, contact, duration, vehicle, val, membership);
+        this.membershipId = membershipId;
+        this.mem = mem;
     } 
 
     public Member(String membershipId, String mem) {
