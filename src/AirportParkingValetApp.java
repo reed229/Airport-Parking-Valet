@@ -6,7 +6,6 @@ package src;
 
 import java.util.Scanner;
 import java.io.*;
-import java.io.File;
 
 public class AirportParkingValetApp {
 
@@ -15,9 +14,7 @@ public class AirportParkingValetApp {
 
     public static void main(String[] args){
         Valet[] val = new Valet[100];
-        
-        
-
+        loadValet(val);
 
         while(!exit) {
             int choice = menu();
@@ -52,6 +49,7 @@ public class AirportParkingValetApp {
         }
 
         outputfile(val);
+        
     }
 
     public static int menu() {
@@ -118,13 +116,13 @@ public class AirportParkingValetApp {
 
         System.out.print("Enter membership yes/no : ");
         String membership = scanner.nextLine();
-        cus.setMembership(membership);
         
         if(membership.equalsIgnoreCase("yes")){
             System.out.print("Enter membership ID : ");
             String membershipId = scanner.nextLine();
-            Member mem = new Member(membershipId);
-            cus.setMem(mem);
+            //if customer enter three times wrong membership id, the program will ask for membership name
+            cus = new Member();
+            ((Member) cus).setMembershipId(membershipId);
         }
 
         // Vehicle details
@@ -174,9 +172,8 @@ public class AirportParkingValetApp {
         cus.setVehicle(vehicle);
 
         // Assign a valet (for simplicity, assign the first valet)
-        if(val[0] != null) {
-            cus.setVal(val[0]);
-        }
+        customeChoice(val, cus);
+        
 
         // Display customer info
         System.out.println("\n--- Customer Information ---");
@@ -355,25 +352,44 @@ public class AirportParkingValetApp {
 
 
 
-    public static void valetShift() {
+    public static void valetShift(Valet[] val) {
         //method to shift valet data in the text file after removing a valet
-        int index = 0;
-        Valet[] val = new Valet[10];
-        try {
-            File file = new File("src/valet.txt");
-            Scanner fileScanner = new Scanner(file);
-            while(fileScanner.hasNextLine()){
-                String line = fileScanner.nextLine();
-                String[] parts = line.split(";");
-                String name = parts[0];
-                String id = parts[1];
-                String contact = parts[2];
-                String rating = parts[3];
-                val[index++] = new Valet(name, id, contact, rating);
+        for(int i = 0; i < val.length; i++) {
+            if(val[i] == null){
+                val[i] = val[i+1];
+
             }
-            fileScanner.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+
         }
     }
-}
+
+    public static void customeChoice(Valet[] val, Customer cus) {
+         
+        //method for customer to choose valet
+        for (int i = 0; i < val.length; i++) {
+            if(val[i] != null) {
+                System.out.println((i+1) + ". " + val[i].getName() + " (Rating: " + val[i].getRating() + ")");
+            }
+        }
+        System.out.println("Choose a Valet: ");
+        int choice = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+
+        while(choice < 1 || choice > val.length) {
+            System.out.println("Invalid choice. Please try again.");
+            System.out.println("Choose a Valet: ");
+            choice = scanner.nextInt();
+        }
+
+        Valet selectedValet = val[choice - 1];
+        System.out.println("You have selected: " + selectedValet.getName());
+
+        // Assign the selected valet to the customer
+        cus.setVal(selectedValet);
+        val[choice - 1] = null;
+
+        valetShift(val);
+    }
+    
+
+ }
