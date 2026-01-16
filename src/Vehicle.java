@@ -3,7 +3,6 @@ public abstract class Vehicle {
 	protected String vehicleType;
 	protected String brand;
 	protected String vehicleBrand;
-	protected String roadTax;
 	protected ParkingLot parkingLot;
 	protected String platNum;
 
@@ -12,16 +11,14 @@ public abstract class Vehicle {
 		this.vehicleType = "";
 		this.brand  = "";
 		this.vehicleBrand = "";
-		this.roadTax = "";
 		this.parkingLot = new ParkingLot();
 		this.platNum = "";
 	}
 
-	public Vehicle( String vehicleType, String brand, String vehicleBrand, String roadTax, ParkingLot parkingLot, String platNum) {
+	public Vehicle( String vehicleType, String brand, String vehicleBrand, ParkingLot parkingLot, String platNum) {
 		this.vehicleType = vehicleType;
 		this.brand  = brand;
 		this.vehicleBrand = vehicleBrand;
-		this.roadTax = roadTax;
 		this.parkingLot = parkingLot;
 		this.platNum = platNum;
 	}
@@ -35,10 +32,7 @@ public abstract class Vehicle {
 	}
 	protected void setVehicleBrand(String vehicleBrand) {
 		this.vehicleBrand = vehicleBrand;
-	}
-	protected void setRoadTax(String roadTax) {
-		this.roadTax = roadTax;
-	}
+	}	
 	protected void setParkingLot(ParkingLot parkingLot) {
 		this.parkingLot = parkingLot;
 	}
@@ -55,10 +49,7 @@ public abstract class Vehicle {
 	}
 	protected String getVehicleBrand() {
 		return vehicleBrand;
-	}
-	protected String getRoadTax() {
-		return roadTax;
-	}
+	}	
 	protected ParkingLot getParkingLot() {
 		return parkingLot;
 	}
@@ -71,8 +62,7 @@ public abstract class Vehicle {
 		public String toString() {
 		return "Vehicle Type: " + vehicleType + "\n" +
 			   "Brand: " + brand + "\n" +
-			   "Vehicle Brand: " + vehicleBrand + "\n" +
-			   "Road Tax: " + roadTax + "\n" +
+			   "Vehicle Brand: " + vehicleBrand + "\n" + 
 			   "Parking Lot: " + parkingLot + "\n" +
 			   "Plate Number: " + platNum + "\n";
 	}
