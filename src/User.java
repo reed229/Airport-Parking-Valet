@@ -39,9 +39,9 @@ public class User{
 
 	@Override
 	public String toString(){
-		return 	"Name    : "+name+
-				"\nId      : "+id+
-				"\nContact : "+contact;
+		return 	"Name: " + name +
+				"\nId: " + id +
+				"\nContact: " +contact;
 	}
 
 }

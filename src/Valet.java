@@ -21,7 +21,7 @@ public class Valet extends User{
     @Override
     public String toString() {
         return super.toString() + 
-               "\nRating  : " + rating;
+               "\nRating: " + rating;
     }
 } 
     
