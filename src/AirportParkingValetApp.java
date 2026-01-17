@@ -347,8 +347,8 @@ public class AirportParkingValetApp {
         //method to shift valet data in the text file after removing a valet
         for(int i = 0; i < val.length; i++) {
             if(val[i] == null){
-                val[i] = val[i+1];
-
+                if (i + 1 < val.length && val[i + 1] != null)
+                    val[i] = val[i+1];
             }
 
         }
@@ -362,7 +362,7 @@ public class AirportParkingValetApp {
                 System.out.println((i+1) + ". " + val[i].getName() + " (Rating: " + val[i].getRating() + ")");
             }
         }
-        System.out.println("Choose a Valet: ");
+        System.out.print("Choose a Valet: ");
         int choice = scanner.nextInt();
         scanner.nextLine(); // Consume newline
 
