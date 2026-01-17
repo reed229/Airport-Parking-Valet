@@ -27,7 +27,7 @@ public class AirportParkingValetApp {
                     cus = customerMenu(cus,val);
                     //chooseValet(cus, val);
                     calcPayment(cus);
-                    paymentRceipt(cus, val);
+                    paymentReceipt(cus, val);
                     break;
                 case 2:
                     // Admin menu
@@ -335,19 +335,28 @@ public class AirportParkingValetApp {
         }
     }
 
-    public static void paymentRceipt(Customer cus, Valet[] val) {
-        System.out.println("\n--- Payment Receipt ---");
-        System.out.println("Customer Name: " + cus.getName());
-        System.out.println("Customer ID: " + cus.getId());
-        System.out.println("Contact: " + cus.getContact());
-        System.out.println("Vehicle Type: " + cus.getVehicle().getVehicleType());
-        System.out.println("Vehicle Brand: " + cus.getVehicle().getBrand());
-        System.out.println("Parking Duration: " + cus.getDuration() + " days");
-        System.out.println("Membership: " + cus.getMembership());
-        double totalCost = calcPayment(cus);
-        System.out.println("Total Payment: RM" + totalCost);
-        System.out.println("Assigned Valet: " + cus.getVal().getName());
-        System.out.println("------------------------");
+   public static void paymentReceipt(Customer cus, Valet[] val) {
+    System.out.println("\n========================================");
+    System.out.println("           PAYMENT RECEIPT              ");
+    System.out.println("========================================");
+    
+    // Using printf for alignment: %-18s pads the label to 18 characters
+    System.out.printf("%-18s: %s\n", "Customer Name", cus.getName());
+    System.out.printf("%-18s: %s\n", "Customer ID", cus.getId());
+    System.out.printf("%-18s: %s\n", "Contact", cus.getContact());
+    
+    System.out.println("----------------------------------------");
+    System.out.printf("%-18s: %s\n", "Vehicle Type", cus.getVehicle().getVehicleType());
+    System.out.printf("%-18s: %s\n", "Vehicle Brand", cus.getVehicle().getBrand());
+    System.out.printf("%-18s: %d days\n", "Parking Duration", cus.getDuration());
+    System.out.printf("%-18s: %s\n", "Membership", cus.getMembership());
+    
+    System.out.println("----------------------------------------");
+    double totalCost = calcPayment(cus);
+    System.out.printf("%-18s: RM %.2f\n", "Total Payment", totalCost);
+    System.out.printf("%-18s: %s\n", "Assigned Valet", cus.getVal().getName());
+    
+    System.out.println("========================================\n");
     }
 
     /* 
