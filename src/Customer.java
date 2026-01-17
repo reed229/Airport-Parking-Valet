@@ -59,9 +59,8 @@ public class Customer extends User {
     @Override
     public String toString() {
         return super.toString() + 
-               "\nDuration: " + duration + " hours\n" +
-               "Vehicle Info: \n" + vehicle.toString() +
-               "Assigned Valet: \n" + val.toString();
-               
+               "\nDuration: " + duration + " days\n" +
+               "\nVEHICLE INFORMATION: " + vehicle.toString() +
+               "\nASSIGN VALLET: " + val.toString();
     }
 }

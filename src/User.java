@@ -40,7 +40,7 @@ public class User{
 	@Override
 	public String toString(){
 		return 	"Name: " + name +
-				"\nId: " + id +
+				"\nID: " + id +
 				"\nContact: " +contact;
 	}
 

@@ -33,7 +33,7 @@ public class ParkingLot {
     
     @Override
     public String toString() {
-        return "ParkingLot:-" + 
+        return "\nPARKINGLOT INFORMATION: " + 
             "\nlevelOfSecurity: " + levelOfSecurity + 
            "\nfloorLevel: " + floorLevel + 
            "\nfloorSection: " + floorSection + 
