@@ -33,4 +33,3 @@ public class Member extends Customer {
         return super.toString() + "\nMembership ID: " + membershipId;
     }
 }
-
