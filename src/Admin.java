@@ -31,7 +31,7 @@ public class Admin extends User {
     @Override
     public String toString() {
         return super.toString() + 
-               "Role    : " + password;
+               "Role: " + password;
     }
 }
  
