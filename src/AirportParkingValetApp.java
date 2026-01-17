@@ -128,8 +128,6 @@ public class AirportParkingValetApp {
             cus.setId(id);
             cus.setContact(contact);
             cus.setDuration(duration);
-
-
         }
 
         // Vehicle details
