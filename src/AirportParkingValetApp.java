@@ -24,8 +24,8 @@ public class AirportParkingValetApp {
                 case 1:
                     //customer menu
                     Customer cus = new Customer();
-                    customerMenu(cus,val);
-                    chooseValet(cus, val);
+                    cus = customerMenu(cus,val);
+                    //chooseValet(cus, val);
                     calcPayment(cus);
                     paymentRceipt(cus, val);
                     break;
@@ -46,6 +46,7 @@ public class AirportParkingValetApp {
                 default:
                     System.out.println("Invalid choice. Please try again."); 
             }
+            valetShift(val);
         }
 
         outputfile(val);
@@ -92,7 +93,7 @@ public class AirportParkingValetApp {
         }
     }
 
-    public static void customerMenu(Customer cus, Valet[] val) {
+    public static Customer customerMenu(Customer cus, Valet[] val) {
         System.out.println("\n--- Customer Menu ---");
 
 
@@ -123,6 +124,12 @@ public class AirportParkingValetApp {
             //if customer enter three times wrong membership id, the program will ask for membership name
             cus = new Member();
             ((Member) cus).setMembershipId(membershipId);
+            cus.setName(name);
+            cus.setId(id);
+            cus.setContact(contact);
+            cus.setDuration(duration);
+
+
         }
 
         // Vehicle details
@@ -178,6 +185,8 @@ public class AirportParkingValetApp {
         // Display customer info
         System.out.println("\n--- Customer Information ---");
         System.out.println(cus.toString());
+
+        return cus;
     }
 
     public static void loadAdmin(Admin admin) {
@@ -267,7 +276,7 @@ public class AirportParkingValetApp {
             }
         }
     }
-
+/* 
     public static void chooseValet(Customer cus, Valet[] val) {
         System.out.println("\n--- Choose a Valet ---");
         System.out.println("list of valets available:");
@@ -277,7 +286,7 @@ public class AirportParkingValetApp {
             }
         }  
     }
-
+*/ 
     public static boolean adminLogin(Admin admin) {
         System.out.print("Enter Admin ID: ");
         String id = scanner.nextLine();
@@ -300,7 +309,7 @@ public class AirportParkingValetApp {
         double totalCost = cus.totalVehicleCost();
         System.out.println("Total Cost: RM" + totalCost);
         double totalPrice = totalCost;
-        if(cus.getMembership().equalsIgnoreCase("yes")){
+        if(cus instanceof Member){
             double discountPrice = totalCost * 0.1;
             double discountedTotal = totalCost - discountPrice;
             System.out.println("Membership Discount Applied: RM" + discountPrice);
@@ -347,8 +356,10 @@ public class AirportParkingValetApp {
         //method to shift valet data in the text file after removing a valet
         for(int i = 0; i < val.length; i++) {
             if(val[i] == null){
-                if (i + 1 < val.length && val[i + 1] != null)
+                if (i + 1 < val.length && val[i + 1] != null){
                     val[i] = val[i+1];
+                    val[i + 1] = null;
+                }
             }
 
         }
@@ -359,6 +370,7 @@ public class AirportParkingValetApp {
         //method for customer to choose valet
         for (int i = 0; i < val.length; i++) {
             if(val[i] != null) {
+                System.out.println("\nOur list of valets available:");
                 System.out.println((i+1) + ". " + val[i].getName() + " (Rating: " + val[i].getRating() + ")");
             }
         }
