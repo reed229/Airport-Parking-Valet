@@ -10,6 +10,6 @@ public class Car extends Vehicle {
     @Override
     public String toString() {
         return super.toString() + 
-               "Vehicle Cost per Hour: RM65.0\n";
+               "Vehicle Cost per Days: RM65.0\n";
     }
 }
