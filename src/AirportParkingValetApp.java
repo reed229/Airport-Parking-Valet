@@ -6,6 +6,7 @@ package src;
 
 import java.util.Scanner;
 import java.io.*;
+import java.util.ArrayList;
 
 public class AirportParkingValetApp {
 
@@ -93,6 +94,29 @@ public class AirportParkingValetApp {
         }
     }
 
+
+
+
+    public static ArrayList<String> loadMemberIds(){
+        ArrayList<String> ids = new ArrayList<>();
+        try{
+            File file = new File("src/idMember.txt");
+            if(file.exists()){
+                Scanner fileScanner = new Scanner(file);
+                while(fileScanner.hasNextLine()){
+                    ids.add(fileScanner.nextLine().trim());
+                }
+                fileScanner.close();
+            }else{
+                System.out.println("Membership ID file not found.");
+            }
+        } catch (IOException e) {
+            System.out.println("Error loading membership IDs: " + e.getMessage());
+        }
+        return ids;
+    }
+
+
     public static Customer customerMenu(Customer cus, Valet[] val) {
         System.out.println("\n--- Customer Menu ---");
 
@@ -115,25 +139,49 @@ public class AirportParkingValetApp {
         scanner.nextLine(); // Consume newline
         cus.setDuration(duration);
 
-        System.out.print("Enter membership yes/no : ");
+        System.out.print("Do you have membership yes/no : ");
         String membership = scanner.nextLine();
         
         if(membership.equalsIgnoreCase("yes")){
-            System.out.print("Enter membership ID : ");
-            String membershipId = scanner.nextLine();
-            //if customer enter three times wrong membership id, the program will ask for membership name
-            cus = new Member();
-            ((Member) cus).setMembershipId(membershipId);
-            cus.setName(name);
-            cus.setId(id);
-            cus.setContact(contact);
-            cus.setDuration(duration);
+            ArrayList<String> memberIds = loadMemberIds();
+            boolean validId = false;
+            int attempts = 0;
+            String membershipId = "";
+
+            while(!validId && attempts < 3){
+                System.out.print("Enter membership ID (hint: VAL-XXXX): ");
+                membershipId = scanner.nextLine();
+
+                if(memberIds.contains(membershipId)){
+                    validId = true;
+                    System.out.println("Membership ID verified. Welcome, member!");
+                }else{
+                    attempts++;
+                    System.out.println("Invalid membership ID. Please try again.");
+                }
+            }
+
+            if(validId){
+                cus = new Member();
+                ((Member) cus).setMembershipId(membershipId);
+
+                cus.setName(name);
+                cus.setId(id);
+                cus.setContact(contact);
+                cus.setDuration(duration);
+                cus.setMembership("Member");
+            }else{
+                System.out.println("Maximum attempts reached. You will be charged as a Non-Member.");
+                cus.setMembership("Non-Member");
+            }
+        }else{
+            cus.setMembership("Non-Member");
         }
 
         // Vehicle details
         String vehicleType = "";
         while(!vehicleType.equalsIgnoreCase("car") && !vehicleType.equalsIgnoreCase("motorcycle") && !vehicleType.equalsIgnoreCase("van")) {
-            System.out.print("Enter vehicle type: ");
+            System.out.print("Enter your vehicle type (Car/Motocycle/Van): ");
             vehicleType = scanner.nextLine();   
         }
 
@@ -200,6 +248,9 @@ public class AirportParkingValetApp {
                     admin.setName(parts[0]);
                     admin.setId(parts[1]);
                     admin.setContact(parts[2]);
+                    if(parts.length > 3) {
+                        admin.setPassword(parts[3]);
+                    } //load password if exists
                 }
             }
             fileScanner.close();
@@ -287,17 +338,16 @@ public class AirportParkingValetApp {
 */ 
     public static boolean adminLogin(Admin admin) {
         System.out.print("Enter Admin ID: ");
-        String id = scanner.nextLine();
+        String inputId = scanner.nextLine();
 
         System.out.print("Enter Admin Password: ");
-        String password = scanner.nextLine();
+        String inputPassword = scanner.nextLine();
 
-        admin.setId(id);
-        admin.setPassword(password);
 
-        if (admin.verifyCredentials(admin.getId(), admin.getPassword())) {
+        if (admin.verifyCredentials(inputId, inputPassword)) {
               return true;
         } else {
+                System.out.println("Invalid credentials. Access denied.");
                 return false;
          }
     }
@@ -306,12 +356,14 @@ public class AirportParkingValetApp {
     public static double calcPayment(Customer cus){
         double totalCost = cus.totalVehicleCost();
         System.out.println("Total Cost: RM" + totalCost);
+
         double totalPrice = totalCost;
+
         if(cus instanceof Member){
             double discountPrice = totalCost * 0.1;
-            double discountedTotal = totalCost - discountPrice;
+            totalPrice = totalCost - discountPrice;
             System.out.println("Membership Discount Applied: RM" + discountPrice);
-            System.out.println("Discounted Total Cost: RM" + discountedTotal);
+            System.out.println("Discounted Total Cost: RM" + totalPrice);
         }else{
             System.out.println("No Membership Discount Applied.");
         }
@@ -349,8 +401,14 @@ public class AirportParkingValetApp {
     System.out.printf("%-18s: %s\n", "Vehicle Type", cus.getVehicle().getVehicleType());
     System.out.printf("%-18s: %s\n", "Vehicle Brand", cus.getVehicle().getBrand());
     System.out.printf("%-18s: %d days\n", "Parking Duration", cus.getDuration());
-    System.out.printf("%-18s: %s\n", "Membership", cus.getMembership());
     
+    //check membership status
+    String memStatus = cus.getMembership();
+    if(memStatus == null){
+        memStatus = (cus instanceof Member) ? "Member" : "Non-Member";
+    }
+    System.out.printf("%-18s: %s\n", "Membership Status", memStatus);
+
     System.out.println("----------------------------------------");
     double totalCost = calcPayment(cus);
     System.out.printf("%-18s: RM %.2f\n", "Total Payment", totalCost);
