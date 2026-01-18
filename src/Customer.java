@@ -51,7 +51,13 @@ public class Customer extends User {
     
 
 	public double totalVehicleCost() {
-		return vehicle.vehicleCost() * getDuration();
+        ParkingLot parkingLot = vehicle.getParkingLot();
+
+        double dailyVehicleCost = vehicle.vehicleCost() + parkingLot.calculateSecurityFee();
+
+        double total = (dailyVehicleCost * getDuration()) + parkingLot.calculateExtraServiceFee();
+
+        return total;
 	}
     
   
@@ -59,8 +65,10 @@ public class Customer extends User {
     @Override
     public String toString() {
         return super.toString() + 
-               "\nDuration: " + duration + " days\n" +
-               "\nVEHICLE INFORMATION: " + vehicle.toString() +
-               "\nASSIGN VALLET: " + val.toString();
+               "\nDuration: " + duration + " days" +
+               "\nSecurity level: " + vehicle.getParkingLot().getLevelOfSecurity() +
+               "\nExtra Service: " + vehicle.getParkingLot().getExtraService() +
+               "\n\nVEHICLE INFORMATION:\n" + vehicle.toString() +
+               "\nASSIGN VALLET:\n" + val.toString();
     }
 }
