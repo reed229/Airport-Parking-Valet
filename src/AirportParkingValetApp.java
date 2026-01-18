@@ -208,8 +208,37 @@ public class AirportParkingValetApp {
         System.out.print("Enter floor section(section A 1-5/B 6-11/C 12-21 ): ");
         String floorSection = scanner.nextLine();
 
-        System.out.print("Enter extra service (if any): ");
-        String extraService = scanner.nextLine();
+        System.out.print("Whould you like extra service? (yes/no): ");
+        String extraService = "";
+        String extraServiceChoice = scanner.nextLine();
+        if(extraServiceChoice.equalsIgnoreCase("yes")){
+            System.out.println("Available Extra Services:");
+            System.out.println("1. Polish");
+            System.out.println("2. Vacuuming");
+            System.out.println("3. Full car wash(Exterior & Interior)");
+            System.out.print("Choose an extra service: ");
+            String serviceOption = scanner.nextLine();
+
+            switch(serviceOption){
+                case "1":
+                case "Polis":
+                    extraService = "Polish";
+                    break;
+                case "2":
+                case "Vacuuming":
+                    extraService = "Vacuuming";
+                    break;
+                case "3":
+                case "Full car wash(Exterior & Interior)":
+                    extraService = "Full car wash(Exterior & Interior)";
+                    break;
+                default:
+                    System.out.println("Invalid choice. No extra service selected.");
+                    extraService = "None";
+            }
+        }else{
+            extraService = "None";
+        }
 
         ParkingLot parkingLot = new ParkingLot(levelOfSecurity, floorLevel, floorSection, extraService);
         
