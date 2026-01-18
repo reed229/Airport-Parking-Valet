@@ -2,23 +2,23 @@
 // reed229
 // Zufar
 
-
 package src;
 
 import java.util.Scanner;
 import java.io.*;
+
 public class AirportParkingValetApp {
 
     static Scanner scanner = new Scanner(System.in);
-    static boolean exit = false;
 
     public static void main(String[] args){
         Valet[] val = new Valet[100];
         loadValet(val);
 
+        boolean exit = false;
+
         while(!exit) {
             int choice = menu();
-
 
             switch (choice) {
                 case 1:
@@ -47,7 +47,8 @@ public class AirportParkingValetApp {
                 default:
                     System.out.println("Invalid choice. Please try again."); 
             }
-            if(!exit && choice == 1 || choice == 2) {
+
+            if (!exit && choice == 1 || choice == 2) {
                 System.out.print("Do you want to countinue to the main menu or exit the application? (yes/exit): ");
                 String response = scanner.nextLine();
 
@@ -88,7 +89,7 @@ public class AirportParkingValetApp {
 
 
     public static void loadValet(Valet[] val) {
-        try{
+        try {
             File file = new File("src/valet.txt");
             Scanner fileScanner = new Scanner(file);
             int index = 0;
@@ -111,7 +112,7 @@ public class AirportParkingValetApp {
 
     public static int loadMemberIds(String[] ids){
         int count = 0;
-        try{
+        try {
             File file = new File("src/idMember.txt");
             if(file.exists()){
                 Scanner fileScanner = new Scanner(file);
@@ -247,7 +248,7 @@ public class AirportParkingValetApp {
 
             switch(serviceOption){
                 case "1":
-                case "Polis":
+                case "Polish":
                     extraService = "Polish";
                     break;
                 case "2":
@@ -510,10 +511,10 @@ public class AirportParkingValetApp {
 
     public static void customeChoice(Valet[] val, Customer cus) {
          
+        System.out.println("\nOur list of valets available:");
         //method for customer to choose valet
         for (int i = 0; i < val.length; i++) {
             if(val[i] != null) {
-                System.out.println("\nOur list of valets available:");
                 System.out.println((i+1) + ". " + val[i].getName() + " (Rating: " + val[i].getRating() + ")");
             }
         }
