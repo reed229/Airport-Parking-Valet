@@ -429,6 +429,11 @@ public class AirportParkingValetApp {
     System.out.println("----------------------------------------");
     System.out.printf("%-18s: %s\n", "Vehicle Type", cus.getVehicle().getVehicleType());
     System.out.printf("%-18s: %s\n", "Vehicle Brand", cus.getVehicle().getBrand());
+
+    //Retrieve parking lot object details
+    ParkingLot Lot = cus.getVehicle().getParkingLot();
+    System.out.printf("%-18s: %s\n", "Level of Security", Lot.getLevelOfSecurity());
+    System.out.printf("%-18s: %s\n", "Extra Service", Lot.getExtraService());
     System.out.printf("%-18s: %d days\n", "Parking Duration", cus.getDuration());
     
     //check membership status
