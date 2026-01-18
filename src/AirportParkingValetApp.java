@@ -31,12 +31,13 @@ public class AirportParkingValetApp {
                     break;
                 case 2:
                     // Admin menu
-                    Admin admin = new Admin();
-                    loadAdmin(admin);
-                    //admin validation
-                    //admin login method
-                    if(adminLogin(admin)) {
-                        adminMenu(admin, val);
+                    Admin[] admins = new Admin[10]; // Adjust the size as needed
+                    loadAdmin(admins);
+
+                    Admin loggedInAdmin = adminLogin(admins);
+
+                    if(loggedInAdmin != null) {
+                        adminMenu(loggedInAdmin, val);
                     }
                     break;
                 case 3:
@@ -291,22 +292,23 @@ public class AirportParkingValetApp {
 
 
 
-    public static void loadAdmin(Admin admin) {
+    public static void loadAdmin(Admin[] admin) {
         try{
             File file = new File("src/admin.txt");
             Scanner fileScanner = new Scanner(file);
-            
-            if(fileScanner.hasNextLine()){
+            int index = 0;
+
+            while(fileScanner.hasNextLine() && index < admin.length){
                 String line = fileScanner.nextLine();
                 String[] parts = line.split(";");
 
-                if(parts.length >= 3) {
-                    admin.setName(parts[0]);
-                    admin.setId(parts[1]);
-                    admin.setContact(parts[2]);
-                    if(parts.length > 3) {
-                        admin.setPassword(parts[3]);
-                    } //load password if exists
+                if(parts.length >= 3){
+                    String name = parts[0];
+                    String id = parts[1];
+                    String contact = parts[2];
+                    String password = (parts.length > 3) ? parts[3] : "";
+
+                    admin[index++] = new Admin(name, id, contact, password);
                 }
             }
             fileScanner.close();
@@ -386,20 +388,28 @@ public class AirportParkingValetApp {
 
     
 
-    public static boolean adminLogin(Admin admin) {
-        System.out.print("Enter Admin ID: ");
-        String inputId = scanner.nextLine();
+    public static Admin adminLogin(Admin[] admins) {
+        int attempts = 0;
+        
+        while(attempts < 3){
+            System.out.print("Enyter Admin ID: ");
+            String inputId = scanner.nextLine();
 
-        System.out.print("Enter Admin Password: ");
-        String inputPassword = scanner.nextLine();
+            System.out.print("Enter Admin Password: ");
+            String inputPassword = scanner.nextLine();
 
-
-        if (admin.verifyCredentials(inputId, inputPassword)) {
-              return true;
-        } else {
-                System.out.println("Invalid credentials. Access denied.");
-                return false;
-         }
+            for (Admin admin : admins)
+                if(admin != null && admin.verifyCredentials(inputId, inputPassword)){
+                    return admin;
+                }       
+                attempts++;
+                int remaining = 3 - attempts;
+                if (remaining > 0){
+                    System.out.println("Invalid credentials. Access denied." + remaining + " attempts remaining.");
+                }
+        }
+        System.out.println("Maximum attempts reached. Please choose an option below to continue back to menu or exit the application.");
+        return null;
     }
 
 
