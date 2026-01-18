@@ -63,7 +63,7 @@ public abstract class Vehicle {
 		return "Vehicle Type: " + vehicleType + "\n" +
 			   "Brand: " + brand + "\n" +
 			   "Vehicle Brand: " + vehicleBrand + "\n" + 
-			   "Parking Lot: " + parkingLot + "\n" +
+			   "\n\nPARKING LOT INFORMATION:\n" + parkingLot + "\n" +
 			   "Plate Number: " + platNum + "\n";
 	}
 }
