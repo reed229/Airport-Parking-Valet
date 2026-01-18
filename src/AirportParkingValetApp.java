@@ -47,6 +47,15 @@ public class AirportParkingValetApp {
                 default:
                     System.out.println("Invalid choice. Please try again."); 
             }
+            if(!exit && choice == 1 || choice == 2) {
+                System.out.print("Do you want to countinue to the main menu or exit the application? (yes/exit): ");
+                String response = scanner.nextLine();
+
+                if(response.equalsIgnoreCase("exit")) {
+                    exit = true;
+                    System.out.println("Exiting the application. Goodbye!");
+                }
+            }
             valetShift(val);
         }
 
