@@ -30,10 +30,34 @@ public class ParkingLot {
     public int getFloorLevel() {return floorLevel;}
     public String getFloorSection() {return floorSection;}
     public String getExtraService() {return extraService;}
+
+    public double calculateExtraServiceFee() {
+        double extraServiceFee = 0.0;
+        if (extraService.equalsIgnoreCase("Polish")) {
+            extraServiceFee = 65.0;
+        } else if (extraService.equalsIgnoreCase("Vacuuming")) {
+            extraServiceFee = 25.0;
+        } else if (extraService.equalsIgnoreCase("Full car wash(Exterior & Interior)")) {
+            extraServiceFee = 75.0;
+        }
+        return extraServiceFee;
+    }
+
+    public double calculateSecurityFee() {
+        double securityFee = 0.0;
+        if (levelOfSecurity.equalsIgnoreCase("Low")) {
+            securityFee = 20.0;
+        } else if (levelOfSecurity.equalsIgnoreCase("Medium")) {
+            securityFee = 50.0;
+        } else if (levelOfSecurity.equalsIgnoreCase("High")) {
+            securityFee = 100.0;
+        }
+        return securityFee;
+    }
     
     @Override
     public String toString() {
-        return "\nPARKINGLOT INFORMATION: " + 
+        return "PARKINGLOT INFORMATION: \n" + 
             "\nlevelOfSecurity: " + levelOfSecurity + 
            "\nfloorLevel: " + floorLevel + 
            "\nfloorSection: " + floorSection + 
