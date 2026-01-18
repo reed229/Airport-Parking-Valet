@@ -6,8 +6,6 @@ package src;
 
 import java.util.Scanner;
 import java.io.*;
-import java.util.ArrayList;
-
 public class AirportParkingValetApp {
 
     static Scanner scanner = new Scanner(System.in);
@@ -106,14 +104,17 @@ public class AirportParkingValetApp {
 
 
 
-    public static ArrayList<String> loadMemberIds(){
-        ArrayList<String> ids = new ArrayList<>();
+    public static int loadMemberIds(String[] ids){
+        int count = 0;
         try{
             File file = new File("src/idMember.txt");
             if(file.exists()){
                 Scanner fileScanner = new Scanner(file);
-                while(fileScanner.hasNextLine()){
-                    ids.add(fileScanner.nextLine().trim());
+                while(fileScanner.hasNextLine() && count < ids.length){
+                    String line = fileScanner.nextLine().trim();
+                    if(!line.isEmpty()){
+                        ids[count++] = line;
+                    }
                 }
                 fileScanner.close();
             }else{
@@ -122,7 +123,7 @@ public class AirportParkingValetApp {
         } catch (IOException e) {
             System.out.println("Error loading membership IDs: " + e.getMessage());
         }
-        return ids;
+        return count;
     }
 
 
@@ -148,11 +149,13 @@ public class AirportParkingValetApp {
         scanner.nextLine(); // Consume newline
         cus.setDuration(duration);
 
-        System.out.print("Do you have membership yes/no : ");
+        System.out.print("\nDo you have membership yes/no : ");
         String membership = scanner.nextLine();
         
         if(membership.equalsIgnoreCase("yes")){
-            ArrayList<String> memberIds = loadMemberIds();
+            String[] memberIds = new String[100];
+            int memberCount = loadMemberIds(memberIds);
+
             boolean validId = false;
             int attempts = 0;
             String membershipId = "";
@@ -161,7 +164,15 @@ public class AirportParkingValetApp {
                 System.out.print("Enter membership ID (hint: VAL-XXXX): ");
                 membershipId = scanner.nextLine();
 
-                if(memberIds.contains(membershipId)){
+                boolean found = false;
+                for(int i = 0; i < memberCount; i++){
+                    if(memberIds[i].equals(membershipId)){
+                        found = true;
+                        break;
+                    }
+                }
+
+                if(found){
                     validId = true;
                     System.out.println("Membership ID verified. Welcome, member enjoy your 10% discount!");
                 }else{
@@ -190,7 +201,7 @@ public class AirportParkingValetApp {
         // Vehicle details
         String vehicleType = "";
         while(!vehicleType.equalsIgnoreCase("car") && !vehicleType.equalsIgnoreCase("motorcycle") && !vehicleType.equalsIgnoreCase("van")) {
-            System.out.print("Enter your vehicle type (Car/Motocycle/Van): ");
+            System.out.print("\nEnter your vehicle type (Car/Motocycle/Van): ");
             vehicleType = scanner.nextLine();   
         }
 
@@ -221,7 +232,7 @@ public class AirportParkingValetApp {
         String extraService = "";
         String extraServiceChoice = scanner.nextLine();
         if(extraServiceChoice.equalsIgnoreCase("yes")){
-            System.out.println("Available Extra Services:");
+            System.out.println("\nAvailable Extra Services:");
             System.out.println("1. Polish");
             System.out.println("2. Vacuuming");
             System.out.println("3. Full car wash(Exterior & Interior)");
@@ -487,13 +498,13 @@ public class AirportParkingValetApp {
                 System.out.println((i+1) + ". " + val[i].getName() + " (Rating: " + val[i].getRating() + ")");
             }
         }
-        System.out.print("Choose a Valet: ");
+        System.out.print("\nChoose a Valet: ");
         int choice = scanner.nextInt();
         scanner.nextLine(); // Consume newline
 
         while(choice < 1 || choice > val.length) {
             System.out.println("Invalid choice. Please try again.");
-            System.out.println("Choose a Valet: ");
+            System.out.println("\nChoose a Valet: ");
             choice = scanner.nextInt();
         }
 
