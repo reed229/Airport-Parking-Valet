@@ -12,9 +12,6 @@ public class Admin extends User {
         this.password = password;
     }
 
-    // TODO: Add Valet
-
-    // TODO: Remove Valet
 
     public void setPassword(String password) {
         this.password = password;
