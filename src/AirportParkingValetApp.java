@@ -1,6 +1,7 @@
 // ShahXVI
-// Zufar
 // reed229
+// Zufar
+
 
 package src;
 
@@ -61,6 +62,8 @@ public class AirportParkingValetApp {
         
     }
 
+
+
     public static int menu() {
         System.out.println("\n====================================");
         System.out.println("Welcome to Airport Parking Valet App");
@@ -81,6 +84,8 @@ public class AirportParkingValetApp {
         return choice;
     }
 
+
+
     public static void loadValet(Valet[] val) {
         try{
             File file = new File("src/valet.txt");
@@ -100,7 +105,6 @@ public class AirportParkingValetApp {
             System.out.println(e.getMessage());
         }
     }
-
 
 
 
@@ -125,6 +129,7 @@ public class AirportParkingValetApp {
         }
         return count;
     }
+
 
 
     public static Customer customerMenu(Customer cus, Valet[] val) {
@@ -284,6 +289,8 @@ public class AirportParkingValetApp {
         return cus;
     }
 
+
+
     public static void loadAdmin(Admin admin) {
         try{
             File file = new File("src/admin.txt");
@@ -307,6 +314,8 @@ public class AirportParkingValetApp {
             System.out.println(e.getMessage());
         }
     }
+
+
 
     //admin menu to choose add or remove valet
     public static void adminMenu(Admin admin, Valet[] val) {
@@ -374,17 +383,9 @@ public class AirportParkingValetApp {
             }
         }
     }
-/* 
-    public static void chooseValet(Customer cus, Valet[] val) {
-        System.out.println("\n--- Choose a Valet ---");
-        System.out.println("list of valets available:");
-        for(int i = 0; i < val.length; i++) {
-            if(val[i] != null) {
-                System.out.println((i+1) + ". " + val[i].getName() + " (Rating: " + val[i].getRating() + ")");
-            }
-        }  
-    }
-*/ 
+
+    
+
     public static boolean adminLogin(Admin admin) {
         System.out.print("Enter Admin ID: ");
         String inputId = scanner.nextLine();
@@ -400,6 +401,7 @@ public class AirportParkingValetApp {
                 return false;
          }
     }
+
 
 
     public static double calcPayment(Customer cus){
@@ -420,6 +422,7 @@ public class AirportParkingValetApp {
     }
 
 
+
     public static void outputfile(Valet[] val) {
         try {
             FileWriter writer = new FileWriter("src/valet.txt");
@@ -435,6 +438,8 @@ public class AirportParkingValetApp {
             System.out.println("An error occurred while writing to the file: " + e.getMessage());
         }
     }
+
+
 
    public static void paymentReceipt(Customer cus, Valet[] val) {
     System.out.println("\n========================================");
@@ -471,6 +476,8 @@ public class AirportParkingValetApp {
     System.out.println("========================================\n");
     }
 
+
+
     /* 
      * optimization of array
      * method to shift valet data in the text file after removing a valet
@@ -488,6 +495,8 @@ public class AirportParkingValetApp {
 
         }
     }
+
+
 
     public static void customeChoice(Valet[] val, Customer cus) {
          
@@ -517,5 +526,4 @@ public class AirportParkingValetApp {
 
         valetShift(val);
     }
-    
 }
