@@ -163,7 +163,7 @@ public class AirportParkingValetApp {
 
                 if(memberIds.contains(membershipId)){
                     validId = true;
-                    System.out.println("Membership ID verified. Welcome, member!");
+                    System.out.println("Membership ID verified. Welcome, member enjoy your 10% discount!");
                 }else{
                     attempts++;
                     System.out.println("Invalid membership ID. Please try again.");
