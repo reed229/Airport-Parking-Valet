@@ -233,7 +233,7 @@ public class AirportParkingValetApp {
         System.out.print("Enter floor section(section A 1-5/B 6-11/C 12-21 ): ");
         String floorSection = scanner.nextLine();
 
-        System.out.print("Whould you like extra service? (yes/no): ");
+        System.out.print("Would you like extra service? (yes/no): ");
         String extraService = "";
         String extraServiceChoice = scanner.nextLine();
         if(extraServiceChoice.equalsIgnoreCase("yes")){
@@ -389,7 +389,7 @@ public class AirportParkingValetApp {
         int attempts = 0;
         
         while(attempts < 3){
-            System.out.print("Enyter Admin ID: ");
+            System.out.print("Enter Admin ID: ");
             String inputId = scanner.nextLine();
 
             System.out.print("Enter Admin Password: ");
