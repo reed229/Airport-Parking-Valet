@@ -2,36 +2,36 @@
 // reed229
 // Zufar
 
-
 package src;
 
 import java.util.Scanner;
 import java.io.*;
-public class AirportParkingValetApp {
 
+public class AirportParkingValetApp {
     static Scanner scanner = new Scanner(System.in);
-    static boolean exit = false;
+
+    static Valet[] val = new Valet[100];
+    static Admin[] admins = new Admin[10]; // Adjust the size as needed
+    static Customer cus = new Customer();
 
     public static void main(String[] args){
-        Valet[] val = new Valet[100];
-        loadValet(val);
+        loadValet();
+
+        boolean exit = false;
 
         while(!exit) {
             int choice = menu();
 
-
             switch (choice) {
                 case 1:
                     //customer menu
-                    Customer cus = new Customer();
-                    cus = customerMenu(cus,val);
+                    customerMenu();
                     //chooseValet(cus, val);
-                    calcPayment(cus);
-                    paymentReceipt(cus, val);
+                    calcPayment();
+                    paymentReceipt();
                     break;
                 case 2:
                     // Admin menu
-                    Admin[] admins = new Admin[10]; // Adjust the size as needed
                     loadAdmin(admins);
 
                     Admin loggedInAdmin = adminLogin(admins);
@@ -47,7 +47,8 @@ public class AirportParkingValetApp {
                 default:
                     System.out.println("Invalid choice. Please try again."); 
             }
-            if(!exit && choice == 1 || choice == 2) {
+
+            if (!exit && choice == 1 || choice == 2) {
                 System.out.print("Do you want to countinue to the main menu or exit the application? (yes/exit): ");
                 String response = scanner.nextLine();
 
@@ -56,11 +57,9 @@ public class AirportParkingValetApp {
                     System.out.println("Exiting the application. Goodbye!");
                 }
             }
-            valetShift(val);
+            valetShift();
         }
-
-        outputfile(val);
-        
+        outputfile();
     }
 
 
@@ -87,8 +86,8 @@ public class AirportParkingValetApp {
 
 
 
-    public static void loadValet(Valet[] val) {
-        try{
+    public static void loadValet() {
+        try {
             File file = new File("src/valet.txt");
             Scanner fileScanner = new Scanner(file);
             int index = 0;
@@ -111,7 +110,7 @@ public class AirportParkingValetApp {
 
     public static int loadMemberIds(String[] ids){
         int count = 0;
-        try{
+        try {
             File file = new File("src/idMember.txt");
             if(file.exists()){
                 Scanner fileScanner = new Scanner(file);
@@ -133,7 +132,7 @@ public class AirportParkingValetApp {
 
 
 
-    public static Customer customerMenu(Customer cus, Valet[] val) {
+    public static void customerMenu() {
         System.out.println("\n--- Customer Menu ---");
 
 
@@ -234,7 +233,7 @@ public class AirportParkingValetApp {
         System.out.print("Enter floor section(section A 1-5/B 6-11/C 12-21 ): ");
         String floorSection = scanner.nextLine();
 
-        System.out.print("Whould you like extra service? (yes/no): ");
+        System.out.print("Would you like extra service? (yes/no): ");
         String extraService = "";
         String extraServiceChoice = scanner.nextLine();
         if(extraServiceChoice.equalsIgnoreCase("yes")){
@@ -247,7 +246,7 @@ public class AirportParkingValetApp {
 
             switch(serviceOption){
                 case "1":
-                case "Polis":
+                case "Polish":
                     extraService = "Polish";
                     break;
                 case "2":
@@ -280,14 +279,12 @@ public class AirportParkingValetApp {
         cus.setVehicle(vehicle);
 
         // Assign a valet (for simplicity, assign the first valet)
-        customeChoice(val, cus);
+        customeChoice();
         
 
         // Display customer info
         System.out.println("\n--- Customer Information ---");
         System.out.println(cus.toString());
-
-        return cus;
     }
 
 
@@ -392,7 +389,7 @@ public class AirportParkingValetApp {
         int attempts = 0;
         
         while(attempts < 3){
-            System.out.print("Enyter Admin ID: ");
+            System.out.print("Enter Admin ID: ");
             String inputId = scanner.nextLine();
 
             System.out.print("Enter Admin Password: ");
@@ -414,13 +411,13 @@ public class AirportParkingValetApp {
 
 
 
-    public static double calcPayment(Customer cus){
+    public static double calcPayment(){
         double totalCost = cus.totalVehicleCost();
         System.out.println("Total Cost: RM" + totalCost);
 
         double totalPrice = totalCost;
 
-        if(cus instanceof Member){
+        if(cus instanceof Member) {
             double discountPrice = totalCost * 0.1;
             totalPrice = totalCost - discountPrice;
             System.out.println("Membership Discount Applied: RM" + discountPrice);
@@ -433,7 +430,7 @@ public class AirportParkingValetApp {
 
 
 
-    public static void outputfile(Valet[] val) {
+    public static void outputfile() {
         try {
             FileWriter writer = new FileWriter("src/valet.txt");
 
@@ -451,7 +448,7 @@ public class AirportParkingValetApp {
 
 
 
-   public static void paymentReceipt(Customer cus, Valet[] val) {
+   public static void paymentReceipt() {
     System.out.println("\n========================================");
     System.out.println("           PAYMENT RECEIPT              ");
     System.out.println("========================================");
@@ -479,7 +476,7 @@ public class AirportParkingValetApp {
     System.out.printf("%-18s: %s\n", "Membership Status", memStatus);
 
     System.out.println("----------------------------------------");
-    double totalCost = calcPayment(cus);
+    double totalCost = calcPayment();
     System.out.printf("%-18s: RM %.2f\n", "Total Payment", totalCost);
     System.out.printf("%-18s: %s\n", "Assigned Valet", cus.getVal().getName());
     
@@ -493,7 +490,7 @@ public class AirportParkingValetApp {
      * method to shift valet data in the text file after removing a valet
      * @author Zufar
     */
-    public static void valetShift(Valet[] val) {
+    public static void valetShift() {
         //method to shift valet data in the text file after removing a valet
         for(int i = 0; i < val.length; i++) {
             if(val[i] == null){
@@ -508,12 +505,11 @@ public class AirportParkingValetApp {
 
 
 
-    public static void customeChoice(Valet[] val, Customer cus) {
-         
+    public static void customeChoice() {
+        System.out.println("\nOur list of valets available:");
         //method for customer to choose valet
         for (int i = 0; i < val.length; i++) {
             if(val[i] != null) {
-                System.out.println("\nOur list of valets available:");
                 System.out.println((i+1) + ". " + val[i].getName() + " (Rating: " + val[i].getRating() + ")");
             }
         }
@@ -534,6 +530,6 @@ public class AirportParkingValetApp {
         cus.setVal(selectedValet);
         val[choice - 1] = null;
 
-        valetShift(val);
+        valetShift();
     }
 } 
