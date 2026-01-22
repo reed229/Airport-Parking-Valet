@@ -484,12 +484,7 @@ public class AirportParkingValetApp {
     }
 
 
-
-    /* 
-     * optimization of array
-     * method to shift valet data in the text file after removing a valet
-     * @author Zufar
-    */
+    
     public static void valetShift() {
         //method to shift valet data in the text file after removing a valet
         for(int i = 0; i < val.length; i++) {
